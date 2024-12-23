@@ -1,0 +1,6 @@
+.aider*
+.env
+
+# uv artifacts
+uv.lock
+.venv
