@@ -2,6 +2,16 @@ import os
 
 from github import Github
 
+def has_dotfiles(repo):
+    try:
+        contents = repo.get_contents("")
+        for content in contents:
+            if content.name in [".vimrc", ".emacs"]:
+                return True
+    except:
+        pass
+    return False
+
 def main():
     g = Github(os.getenv('GITHUB_ACCESS_TOKEN'))
 
@@ -26,11 +36,19 @@ def main():
 
             python_repos.append(repo)
 
-        # Filter people who have less then 3 recent Python repositories
+        # Filter people who have less than 3 recent Python repositories
         if len(python_repos) < 3:
             continue
 
+        # Check for the presence of .vimrc or .emacs in the user's repositories
+        dotfile_found = False
+        for repo in python_repos:
+            if has_dotfiles(repo):
+                dotfile_found = True
+                break
 
+        if not dotfile_found:
+            continue
 
 if __name__ == '__main__':
     main()
