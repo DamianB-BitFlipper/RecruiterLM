@@ -1,12 +1,14 @@
+import os
+
 from github import Github
 
 def main():
-    # Replace 'your_access_token' with your actual GitHub access token
-    g = Github("your_access_token")
-    
+    g = Github(os.getenv('GITHUB_ACCESS_TOKEN'))
+
     # Search for users with location set to Berlin
-    users = g.search_users(query='location:Berlin', per_page=100)
-    
+    users = g.search_users("", location="Berlin")
+
+    breakpoint()
     # Print the login of each user found
     for user in users:
         print(user.login)
