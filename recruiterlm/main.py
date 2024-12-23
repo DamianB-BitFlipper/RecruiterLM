@@ -9,12 +9,17 @@ def main():
     users = g.search_users("", location="Berlin")
 
     breakpoint()
-    # Print the login of each user found and their top 5 most recent repositories
+    # Print the login of each user found and their top 5 most recent Python repositories
     for user in users:
-        # Get repositories sorted by last push date
-        repos = user.get_repos(sort='pushed', direction='desc')
+        print(f"User: {user.login}")
         
-        # Print the top 5 most recent repositories
+        # Get the user object to access repositories
+        user_obj = g.get_user(user.login)
+        
+        # Get Python repositories sorted by last push date
+        repos = user_obj.get_repos(sort='pushed', direction='desc', language='Python')
+        
+        # Print the top 5 most recent Python repositories
         for i, repo in enumerate(repos[:5], start=1):
             print(f"  {i}. {repo.name}")
 
