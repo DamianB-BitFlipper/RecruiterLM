@@ -1,5 +1,5 @@
 .aider*
-.env
+.envrc
 
 # uv artifacts
 uv.lock
