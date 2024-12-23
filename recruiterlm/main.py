@@ -28,6 +28,7 @@ def process_user(user_idx, user):
     # Filter people who have less than 3 recent Python repositories
     if len(python_repos) < 3:
         output += "\tNot enough Python\n"
+        print(output)
         return None
 
     # Search for Emacs Lisp and Vim Script in the user's top 100 repositories
@@ -46,6 +47,7 @@ def process_user(user_idx, user):
 
     if not found_emacs_vim:
         output += "\tNo Emacs or Vim\n"
+        print(output)
         return None
 
     # Save the filtered user
