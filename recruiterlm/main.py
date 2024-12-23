@@ -2,8 +2,7 @@ import os
 import multiprocessing
 from github import Github
 
-def process_user(user):
-    user_idx = user.id  # or any unique identifier for the user
+def process_user(user_idx, user):
     print(f"{user_idx} User: {user.login}")
 
     # Filter high-ball followers
@@ -62,7 +61,7 @@ def main():
     # Create a pool of worker processes
     with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
         # Map the process_user function over the users
-        filtered_users = pool.map(process_user, users[:500])
+        filtered_users = pool.starmap(process_user, enumerate(users[:500]))
 
     # Filter out None values (users that did not meet the criteria)
     filtered_users = [user for user in filtered_users if user]
