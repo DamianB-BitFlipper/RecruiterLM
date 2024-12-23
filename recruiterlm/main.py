@@ -3,11 +3,11 @@ import multiprocessing
 from github import Github
 
 def process_user(user_idx, user):
-    print(f"{user_idx} User: {user.login}")
+    output = f"{user_idx} User: {user.login}\n"
 
     # Filter high-ball followers
     n_followers = user.get_followers().totalCount
-    print(f"\tFollowers: {n_followers}")
+    output += f"\tFollowers: {n_followers}\n"
 
     # Get repositories sorted by last push date
     repos = user.get_repos(sort='pushed', direction='desc')
@@ -27,7 +27,7 @@ def process_user(user_idx, user):
 
     # Filter people who have less than 3 recent Python repositories
     if len(python_repos) < 3:
-        print("\tNot enough Python")
+        output += "\tNot enough Python\n"
         return None
 
     # Search for Emacs Lisp and Vim Script in the user's top 100 repositories
@@ -45,11 +45,12 @@ def process_user(user_idx, user):
             break
 
     if not found_emacs_vim:
-        print("\tNo Emacs or Vim")
+        output += "\tNo Emacs or Vim\n"
         return None
 
     # Save the filtered user
-    print("\t+++ User is a hit! +++")
+    output += "\t+++ User is a hit! +++\n"
+    print(output)
     return user
 
 def main():
